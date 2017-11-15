@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DynamicAppsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CMDynamicApplications">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inserted_at" Type="datetime" />
+          <Property Name="Index" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PackageId" Type="bigint" />
+          <Property Name="Version" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="CMDynamicPackages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inserted_at" Type="datetime" />
+          <Property Name="Index" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PackageID" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PackageName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PackageVersion" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ProgramID" Type="int" />
+          <Property Name="ProgramName" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="CMOperatingSystems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inserted_at" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Language" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PackageId" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PkgSourcePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SourceSize" Type="int" />
+          <Property Name="SourceVersion" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DynamicApps.dbo.Configuration' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inserted_at" Type="datetime" />
+          <Property Name="CollectionID" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DomainShort" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Location" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OU" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RDSVersion" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SCOM" Type="nvarchar" MaxLength="1000" />
+          <Property Name="System" Type="nvarchar" MaxLength="1000" />
+          <Property Name="XAController" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OfficeVersion" Type="nvarchar" MaxLength="1000" />
+          <Property Name="XenAppFarmName" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="DynamicAppCustomers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="PackageID" Type="int" />
+          <Property Name="PackageIndex" Type="int" />
+          <Property Name="ApplicationID" Type="int" />
+          <Property Name="ApplicationIndex" Type="int" />
+          <Property Name="OSID" Type="int" />
+        </EntityType>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicApplications">
+          <End Role="CMDynamicApplications" Type="Self.CMDynamicApplications" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicApplications">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicPackages">
+          <End Role="CMDynamicPackages" Type="Self.CMDynamicPackages" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicPackages">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="PackageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_CMOperatingSystems">
+          <End Role="CMOperatingSystems" Type="Self.CMOperatingSystems" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMOperatingSystems">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="OSID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DynamicAppsModelStoreContainer">
+          <EntitySet Name="CMDynamicApplications" EntityType="Self.CMDynamicApplications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CMDynamicPackages" EntityType="Self.CMDynamicPackages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CMOperatingSystems" EntityType="Self.CMOperatingSystems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DynamicAppCustomers" EntityType="Self.DynamicAppCustomers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicApplications" Association="Self.FK_DynamicAppCustomers_CMDynamicApplications">
+            <End Role="CMDynamicApplications" EntitySet="CMDynamicApplications" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicPackages" Association="Self.FK_DynamicAppCustomers_CMDynamicPackages">
+            <End Role="CMDynamicPackages" EntitySet="CMDynamicPackages" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_CMOperatingSystems" Association="Self.FK_DynamicAppCustomers_CMOperatingSystems">
+            <End Role="CMOperatingSystems" EntitySet="CMOperatingSystems" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_Customers" Association="Self.FK_DynamicAppCustomers_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DynamicAppsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CMDynamicApplication">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="inserted_at" Type="DateTime" Precision="3" />
+          <Property Name="Index" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PackageId" Type="Int64" />
+          <Property Name="Version" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMDynamicApplications" FromRole="CMDynamicApplications" ToRole="DynamicAppCustomers" />
+        </EntityType>
+        <EntityType Name="CMDynamicPackage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="inserted_at" Type="DateTime" Precision="3" />
+          <Property Name="Index" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PackageID" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PackageName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PackageVersion" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ProgramID" Type="Int32" />
+          <Property Name="ProgramName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMDynamicPackages" FromRole="CMDynamicPackages" ToRole="DynamicAppCustomers" />
+        </EntityType>
+        <EntityType Name="CMOperatingSystem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="inserted_at" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PackageId" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PkgSourcePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SourceSize" Type="Int32" />
+          <Property Name="SourceVersion" Type="Int32" />
+          <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMOperatingSystems" FromRole="CMOperatingSystems" ToRole="DynamicAppCustomers" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="inserted_at" Type="DateTime" Precision="3" />
+          <Property Name="CollectionID" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DomainShort" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OU" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RDSVersion" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SCOM" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="XAController" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OfficeVersion" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="XenAppFarmName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_Customers" FromRole="Customers" ToRole="DynamicAppCustomers" />
+        </EntityType>
+        <EntityType Name="DynamicAppCustomer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="PackageID" Type="Int32" />
+          <Property Name="PackageIndex" Type="Int32" />
+          <Property Name="ApplicationID" Type="Int32" />
+          <Property Name="ApplicationIndex" Type="Int32" />
+          <Property Name="OSID" Type="Int32" />
+          <NavigationProperty Name="CMDynamicApplication" Relationship="Self.FK_DynamicAppCustomers_CMDynamicApplications" FromRole="DynamicAppCustomers" ToRole="CMDynamicApplications" />
+          <NavigationProperty Name="CMDynamicPackage" Relationship="Self.FK_DynamicAppCustomers_CMDynamicPackages" FromRole="DynamicAppCustomers" ToRole="CMDynamicPackages" />
+          <NavigationProperty Name="CMOperatingSystem" Relationship="Self.FK_DynamicAppCustomers_CMOperatingSystems" FromRole="DynamicAppCustomers" ToRole="CMOperatingSystems" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_DynamicAppCustomers_Customers" FromRole="DynamicAppCustomers" ToRole="Customers" />
+        </EntityType>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicApplications">
+          <End Role="CMDynamicApplications" Type="Self.CMDynamicApplication" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicApplications">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicPackages">
+          <End Role="CMDynamicPackages" Type="Self.CMDynamicPackage" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicPackages">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="PackageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_CMOperatingSystems">
+          <End Role="CMOperatingSystems" Type="Self.CMOperatingSystem" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMOperatingSystems">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="OSID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DynamicAppsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CMDynamicApplications" EntityType="Self.CMDynamicApplication" />
+          <EntitySet Name="CMDynamicPackages" EntityType="Self.CMDynamicPackage" />
+          <EntitySet Name="CMOperatingSystems" EntityType="Self.CMOperatingSystem" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="DynamicAppCustomers" EntityType="Self.DynamicAppCustomer" />
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicApplications" Association="Self.FK_DynamicAppCustomers_CMDynamicApplications">
+            <End Role="CMDynamicApplications" EntitySet="CMDynamicApplications" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicPackages" Association="Self.FK_DynamicAppCustomers_CMDynamicPackages">
+            <End Role="CMDynamicPackages" EntitySet="CMDynamicPackages" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_CMOperatingSystems" Association="Self.FK_DynamicAppCustomers_CMOperatingSystems">
+            <End Role="CMOperatingSystems" EntitySet="CMOperatingSystems" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_Customers" Association="Self.FK_DynamicAppCustomers_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DynamicAppsModelStoreContainer" CdmEntityContainer="DynamicAppsEntities">
+          <EntitySetMapping Name="CMDynamicApplications">
+            <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicApplication">
+              <MappingFragment StoreEntitySet="CMDynamicApplications">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CMDynamicPackages">
+            <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicPackage">
+              <MappingFragment StoreEntitySet="CMDynamicPackages">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+                <ScalarProperty Name="PackageVersion" ColumnName="PackageVersion" />
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
+                <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CMOperatingSystems">
+            <EntityTypeMapping TypeName="DynamicAppsModel.CMOperatingSystem">
+              <MappingFragment StoreEntitySet="CMOperatingSystems">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="PkgSourcePath" ColumnName="PkgSourcePath" />
+                <ScalarProperty Name="SourceSize" ColumnName="SourceSize" />
+                <ScalarProperty Name="SourceVersion" ColumnName="SourceVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="DynamicAppsModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
+                <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="DomainShort" ColumnName="DomainShort" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="OU" ColumnName="OU" />
+                <ScalarProperty Name="RDSVersion" ColumnName="RDSVersion" />
+                <ScalarProperty Name="SCOM" ColumnName="SCOM" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="XAController" ColumnName="XAController" />
+                <ScalarProperty Name="OfficeVersion" ColumnName="OfficeVersion" />
+                <ScalarProperty Name="XenAppFarmName" ColumnName="XenAppFarmName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DynamicAppCustomers">
+            <EntityTypeMapping TypeName="DynamicAppsModel.DynamicAppCustomer">
+              <MappingFragment StoreEntitySet="DynamicAppCustomers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="PackageIndex" ColumnName="PackageIndex" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="ApplicationIndex" ColumnName="ApplicationIndex" />
+                <ScalarProperty Name="OSID" ColumnName="OSID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
