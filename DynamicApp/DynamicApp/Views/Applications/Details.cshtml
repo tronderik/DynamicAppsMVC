@@ -1,0 +1,58 @@
+﻿@model DynamicApp.Models.CMDynamicApplication
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CMDynamicApplication</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.inserted_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inserted_at)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Index)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Index)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

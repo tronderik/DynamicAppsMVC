@@ -1,0 +1,122 @@
+﻿@model DynamicApp.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.inserted_at)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inserted_at)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CollectionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CollectionID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Domain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Domain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DomainShort)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DomainShort)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OU)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OU)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RDSVersion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RDSVersion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SCOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SCOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.System)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.System)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.XAController)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.XAController)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OfficeVersion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OfficeVersion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.XenAppFarmName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.XenAppFarmName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
