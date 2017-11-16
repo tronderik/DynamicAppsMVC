@@ -1,5 +1,18 @@
 ﻿@model DynamicApp.Models.Customer
+
 @{
     ViewBag.Title = "Home Page";
-}
 
+}
+<h2>Customer Overview</h2>
+
+@using (Html.BeginForm("SelectCustomer", "Home",FormMethod.Get))
+{
+    <fieldset>
+            Customer
+            @Html.DropDownList("id", (IEnumerable<SelectListItem>)ViewBag.ListOfCustomers)
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fieldset>
+}

@@ -13,13 +13,32 @@ namespace DynamicApp.Controllers
 
         public ActionResult Index()
         {
-            List<string> customerList = new List<string>();
-            customerList = (from customer in db.Customers
-                         select customer.Name).ToList();
+            var customers = db.Customers
+                .OrderBy(c => c.Name)
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.id.ToString()
+                })
+                .ToList();
 
-            customerList.Insert(0,"Select Customer" );
-            ViewBag.ListOfCustomers = customerList;
+            ViewBag.ListOfCustomers = customers;
+
             return View();
+        }
+        
+        public ActionResult SelectCustomer(int id)
+        {
+            var customer = db.Customers.Find(id);
+            ViewBag.CustomerName = customer?.Name;
+
+            return View();
+        }
+
+        public ViewResult CustomerChoosen(string customer)
+        {
+            ViewBag.messageString = customer;
+            return View("information");
         }
 
         public ActionResult About()
