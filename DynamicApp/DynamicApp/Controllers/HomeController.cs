@@ -162,6 +162,26 @@ namespace DynamicApp.Controllers
             return RedirectToAction("SelectCustomer", new { id = customerId });
         }
 
+        [HttpPost]
+        public ActionResult PackageRemove(int customerID, int pckid)
+        {
+            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.PackageID == pckid);
+            db.DynamicAppCustomers.Remove(dynamicPackage);
+            db.SaveChanges();
+
+            return RedirectToAction("SelectCustomer", new { id = customerID });
+        }
+
+        [HttpPost]
+        public ActionResult ApplicationRemove(int customerID, int appid)
+        {
+            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.ApplicationID == appid);
+            db.DynamicAppCustomers.Remove(dynamicPackage);
+            db.SaveChanges();
+
+            return RedirectToAction("SelectCustomer", new { id = customerID });
+        }
+
         public ViewResult CustomerChoosen(string customer)
         {
             ViewBag.messageString = customer;

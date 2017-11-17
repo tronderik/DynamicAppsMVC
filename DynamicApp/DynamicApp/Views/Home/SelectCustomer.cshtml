@@ -52,6 +52,14 @@
                                 <input type="submit" value="&dArr;" />
                             }
                         </td>
+                        <td>
+                            @using (Html.BeginForm("PackageRemove", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.customer.id)
+                                <input type="submit" value="Remove" />
+                            }
+                        </td>
                     </tr>
                 }
             </table>
@@ -102,6 +110,14 @@
                                 @Html.Hidden("appid", item.id)
                                 @Html.Hidden("customerId", Model.customer.id)
                                 <input type="submit" value="&dArr;" />
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ApplicationRemove", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("appid", item.id)
+                                @Html.Hidden("customerId", Model.customer.id)
+                                <input type="submit" value="Remove" />
                             }
                         </td>
                     </tr>
