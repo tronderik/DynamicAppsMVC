@@ -50,6 +50,7 @@ namespace DynamicApp.Controllers
 
             var packageList = db.DynamicAppCustomers
                 .Where(c => customer.id == c.CustomerID && c.PackageID != null)
+                .OrderBy(c => c.PackageIndex)
                 .Select(c => c.CMDynamicPackage)
                 .ToList();
             
@@ -106,6 +107,53 @@ namespace DynamicApp.Controllers
                     var appAfterIndex = appAfterIt.ApplicationIndex;
                     appAfterIt.ApplicationIndex = dynamicApp.ApplicationIndex;
                     dynamicApp.ApplicationIndex = appAfterIndex;
+
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("SelectCustomer", new { id = customerId });
+        }
+
+        [HttpPost]
+        public ActionResult PackageMoveUp(int customerId, int pckid)
+        {
+            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerId && d.PackageID == pckid);
+
+            if (dynamicPackage != null)
+            {
+                var appBeforeIt = db.DynamicAppCustomers
+                    .OrderByDescending(d => d.PackageIndex)
+                    .FirstOrDefault(d => d.CustomerID == customerId && d.PackageIndex < dynamicPackage.PackageIndex);
+
+                if (appBeforeIt != null)
+                {
+                    var appBeforeIndex = appBeforeIt.PackageIndex;
+                    appBeforeIt.PackageIndex = dynamicPackage.PackageIndex;
+                    dynamicPackage.PackageIndex = appBeforeIndex;
+
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("SelectCustomer", new { id = customerId });
+        }
+
+        [HttpPost]
+        public ActionResult PackageMoveDown(int customerId, int pckid)
+        {
+            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerId && d.PackageID == pckid);
+
+            if (dynamicPackage != null)
+            {
+                var appAfterIt = db.DynamicAppCustomers.OrderBy(d => d.PackageIndex)
+                    .FirstOrDefault(d => d.CustomerID == customerId && d.PackageIndex > dynamicPackage.PackageIndex);
+
+                if (appAfterIt != null)
+                {
+                    var appAfterIndex = appAfterIt.PackageIndex;
+                    appAfterIt.PackageIndex = dynamicPackage.PackageIndex;
+                    dynamicPackage.PackageIndex = appAfterIndex;
 
                     db.SaveChanges();
                 }

@@ -38,6 +38,20 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.PackageID)
                         </td>
+                        <td>
+                            @using (Html.BeginForm("PackageMoveUp", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.customer.id)
+                                <input type="submit" value="&uArr;" />
+                            }
+                            @using (Html.BeginForm("PackageMoveDown", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.customer.id)
+                                <input type="submit" value="&dArr;" />
+                            }
+                        </td>
                     </tr>
                 }
             </table>
@@ -81,13 +95,13 @@
                             {
                                 @Html.Hidden("appid", item.id)
                                 @Html.Hidden("customerId", Model.customer.id)
-                                <input type="submit" value="Move up" />
+                                <input type="submit" value="&uArr;" />
                             }
                             @using (Html.BeginForm("ApplicationMoveDown", "Home", FormMethod.Post))
                             {
                                 @Html.Hidden("appid", item.id)
                                 @Html.Hidden("customerId", Model.customer.id)
-                                <input type="submit" value="Move down" />
+                                <input type="submit" value="&dArr;" />
                             }
                         </td>
                     </tr>
