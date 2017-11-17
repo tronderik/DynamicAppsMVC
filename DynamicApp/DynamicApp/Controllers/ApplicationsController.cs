@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DynamicApp.Models;
+using DynamicApp.ViewModels;
 
 namespace DynamicApp.Controllers
 {
@@ -20,108 +21,42 @@ namespace DynamicApp.Controllers
             return View(db.CMDynamicApplications.ToList());
         }
 
-        // GET: Applications/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult ApplicationList(int customerID)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMDynamicApplication cMDynamicApplication = db.CMDynamicApplications.Find(id);
-            if (cMDynamicApplication == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMDynamicApplication);
+
+            var customerApplications = new CustomerApplications();
+            
+            var customerApps = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
+                                                       .Select(c=> c.CMDynamicApplication.id)
+                                                        .ToList();
+            var appsCustomerDoesntHave = db.CMDynamicApplications.Where(d => !customerApps.Contains(d.id)).ToList();
+            Customer customer = db.Customers.Where(c => c.id == customerID).FirstOrDefault();
+            customerApplications.Customer = customer;
+            customerApplications.ApplicationList = appsCustomerDoesntHave;
+            return View(customerApplications);
         }
 
-        // GET: Applications/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Applications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,inserted_at,Index,Name,PackageId,Version")] CMDynamicApplication cMDynamicApplication)
+        public ActionResult AddApplicationToCustomer(int[] ids, int customerID)
         {
-            if (ModelState.IsValid)
+            foreach(int id in ids)
             {
-                db.CMDynamicApplications.Add(cMDynamicApplication);
+                CMDynamicApplication currentApplication = db.CMDynamicApplications.Where(a => a.id == id).FirstOrDefault();
+                DynamicAppCustomer appCustomer = new DynamicAppCustomer();
+                var lastIndexValue = (db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
+                        .OrderByDescending(c => c.ApplicationIndex)
+                        .FirstOrDefault(c => c.CustomerID == customerID)).ApplicationIndex;
+                int nextIndex = (int) lastIndexValue + 1;
+                appCustomer.CustomerID = customerID;
+                appCustomer.ApplicationID = currentApplication.id;
+                appCustomer.ApplicationIndex = nextIndex;
+
+                db.DynamicAppCustomers.Add(appCustomer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(cMDynamicApplication);
+            return RedirectToAction("SelectCustomer", "Home", new { id = customerID });
         }
 
-        // GET: Applications/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMDynamicApplication cMDynamicApplication = db.CMDynamicApplications.Find(id);
-            if (cMDynamicApplication == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMDynamicApplication);
-        }
-
-        // POST: Applications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,inserted_at,Index,Name,PackageId,Version")] CMDynamicApplication cMDynamicApplication)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cMDynamicApplication).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(cMDynamicApplication);
-        }
-
-        // GET: Applications/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMDynamicApplication cMDynamicApplication = db.CMDynamicApplications.Find(id);
-            if (cMDynamicApplication == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMDynamicApplication);
-        }
-
-        // POST: Applications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CMDynamicApplication cMDynamicApplication = db.CMDynamicApplications.Find(id);
-            db.CMDynamicApplications.Remove(cMDynamicApplication);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
+       
 }

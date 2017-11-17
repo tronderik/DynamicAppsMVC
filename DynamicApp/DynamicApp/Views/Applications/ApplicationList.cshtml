@@ -1,17 +1,16 @@
 ﻿@model DynamicApp.ViewModels.CustomerApplications
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ApplicationList";
 }
 
-<h2>Index</h2>
+<h2>ApplicationList</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
-@using (Html.BeginForm("AddApplicationToCustomer", "Application", FormMethod.Post))
-{
+@using (Html.BeginForm("AddApplicationToCustomer", "Applications", FormMethod.Post))
+{   
+    @Html.Hidden("customerID", Model.Customer.id)
+
     <table class="table">
         <tr>
             <th>

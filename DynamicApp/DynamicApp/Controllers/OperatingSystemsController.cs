@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DynamicApp.Models;
+using DynamicApp.ViewModels;
 
 namespace DynamicApp.Controllers
 {
@@ -20,108 +21,36 @@ namespace DynamicApp.Controllers
             return View(db.CMOperatingSystems.ToList());
         }
 
-        // GET: OperatingSystems/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult OSList(int customerID)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMOperatingSystem cMOperatingSystem = db.CMOperatingSystems.Find(id);
-            if (cMOperatingSystem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMOperatingSystem);
+
+            var customerOS = new CustomerOS();
+
+            var existingcustomerOS = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.OSID != null)
+                                                       .Select(c => c.CMOperatingSystem.id)
+                                                        .ToList();
+            var osCustomerDoesntHave = db.CMOperatingSystems.Where(d => !existingcustomerOS.Contains(d.id)).ToList();
+            Customer customer = db.Customers.Where(c => c.id == customerID).FirstOrDefault();
+            customerOS.Customer = customer;
+            customerOS.OSList = osCustomerDoesntHave;
+            return View(customerOS);
         }
 
-        // GET: OperatingSystems/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: OperatingSystems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,inserted_at,Description,Language,Name,PackageId,PkgSourcePath,SourceSize,SourceVersion")] CMOperatingSystem cMOperatingSystem)
+        public ActionResult AddOSToCustomer(int[] ids, int customerID)
         {
-            if (ModelState.IsValid)
+            foreach (int id in ids)
             {
-                db.CMOperatingSystems.Add(cMOperatingSystem);
+                CMOperatingSystem currentOS = db.CMOperatingSystems.Where(a => a.id == id).FirstOrDefault();
+                DynamicAppCustomer appCustomer = new DynamicAppCustomer();
+
+                appCustomer.CustomerID = customerID;
+                appCustomer.OSID = id;
+
+                db.DynamicAppCustomers.Add(appCustomer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(cMOperatingSystem);
-        }
-
-        // GET: OperatingSystems/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMOperatingSystem cMOperatingSystem = db.CMOperatingSystems.Find(id);
-            if (cMOperatingSystem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMOperatingSystem);
-        }
-
-        // POST: OperatingSystems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,inserted_at,Description,Language,Name,PackageId,PkgSourcePath,SourceSize,SourceVersion")] CMOperatingSystem cMOperatingSystem)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cMOperatingSystem).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(cMOperatingSystem);
-        }
-
-        // GET: OperatingSystems/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CMOperatingSystem cMOperatingSystem = db.CMOperatingSystems.Find(id);
-            if (cMOperatingSystem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cMOperatingSystem);
-        }
-
-        // POST: OperatingSystems/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CMOperatingSystem cMOperatingSystem = db.CMOperatingSystems.Find(id);
-            db.CMOperatingSystems.Remove(cMOperatingSystem);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return RedirectToAction("SelectCustomer", "Home", new { id = customerID });
         }
     }
 }
