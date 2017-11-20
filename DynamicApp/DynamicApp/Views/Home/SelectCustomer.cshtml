@@ -1,4 +1,4 @@
-﻿@model  DynamicApp.ViewModels.CustomerTask
+﻿@model  DynamicApp.ViewModels.CustomerTaskVM
 
 @{
     ViewBag.Title = "SelectCustomer";
@@ -7,10 +7,10 @@
 <h2>@ViewBag.CustomerName</h2>
 
 <div class="form-group">
-    <h2>Package table</h2>
+    <h4>Package table</h4>
     @using (Html.BeginForm("PackageList", "Packages", FormMethod.Get))
             {
-        @Html.Hidden("customerID", Model.customer.id)
+        @Html.Hidden("customerID", Model.Customer.id)
         <button class="btn btn-success">
             Add Packages
         </button>
@@ -31,7 +31,7 @@
                 PackageID
             </th>
         </tr>
-        @foreach (var item in Model.packageList)
+        @foreach (var item in Model.PackageList)
         {
             <tr>
                 <td>
@@ -50,7 +50,7 @@
                     @using (Html.BeginForm("PackageMoveUp", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-arrow-up"></span>
                         </button>
@@ -59,7 +59,7 @@
                     @using (Html.BeginForm("PackageMoveDown", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-arrow-down"></span>
                         </button>
@@ -69,7 +69,7 @@
                     @using (Html.BeginForm("PackageRemove", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-danger" type="submit">
                             Remove Package
                         </button>
@@ -83,10 +83,10 @@
 </div>        
            
 <div class="form-group">
-    <h2>Application table</h2>
+    <h4>Application table</h4>
     @using (Html.BeginForm("ApplicationList", "Applications", FormMethod.Get))
             {
-        @Html.Hidden("customerID", Model.customer.id)
+        @Html.Hidden("customerID", Model.Customer.id)
         <button class="btn btn-success">
             Add Applications
         </button>
@@ -107,7 +107,7 @@
             </th>
             <th></th>
         </tr>
-        @foreach (var item in Model.applicationList)
+        @foreach (var item in Model.ApplicationList)
         {
             <tr>
                 <td>
@@ -126,7 +126,7 @@
                     @using (Html.BeginForm("ApplicationMoveUp", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-arrow-up"></span>
                         </button>
@@ -134,7 +134,7 @@
                     @using (Html.BeginForm("ApplicationMoveDown", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-arrow-down"></span>
                         </button>
@@ -144,7 +144,7 @@
                     @using (Html.BeginForm("ApplicationRemove", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-danger" type="submit">
                             Remove Package
                         </button>
@@ -157,10 +157,10 @@
 </div>     
 
 <div class="form-group">
-    <h2>Operating System Table</h2>
+    <h4>Operating System Table</h4>
     @using (Html.BeginForm("OSList", "OperatingSystems", FormMethod.Get))
             {
-        @Html.Hidden("customerID", Model.customer.id)
+        @Html.Hidden("customerID", Model.Customer.id)
         <button class="btn btn-success">
             Add OperatingSystem
         </button>
@@ -183,7 +183,7 @@
                 PackageID
             </th>
         </tr>
-        @foreach (var item in Model.operatingSystem)
+        @foreach (var item in Model.OperatingSystem)
         {
             <tr>
                 <td>
@@ -205,7 +205,7 @@
                     @using (Html.BeginForm("OSRemove", "Home", FormMethod.Post))
                     {
                         @Html.Hidden("osid", item.id)
-                        @Html.Hidden("customerId", Model.customer.id)
+                        @Html.Hidden("customerId", Model.Customer.id)
                         <button class="btn btn-danger" type="submit">
                             Remove Package
                         </button>
@@ -229,12 +229,12 @@
 
     <script type="text/javascript">
         $(window).scroll(function () {
-            sessionStorage.scrollTop@(Model.customer.id) = $(this).scrollTop();
+            sessionStorage.scrollTop@(Model.Customer.id) = $(this).scrollTop();
         });
 
         $(document).ready(function() {
-          if (sessionStorage.scrollTop@(Model.customer.id) != "undefined") {
-            $(window).scrollTop(sessionStorage.scrollTop@(Model.customer.id));
+          if (sessionStorage.scrollTop@(Model.Customer.id) != "undefined") {
+            $(window).scrollTop(sessionStorage.scrollTop@(Model.Customer.id));
           }
         });
     </script>    

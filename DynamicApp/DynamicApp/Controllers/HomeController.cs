@@ -38,7 +38,7 @@ namespace DynamicApp.Controllers
         
         public ActionResult SelectCustomer(int id)
         {
-            CustomerTask customerTask = new CustomerTask();
+            CustomerTaskVM customerTask = new CustomerTaskVM();
             var customer = db.Customers.Find(id);
             var applicationList = db.DynamicAppCustomers
                 .Where(c => customer.id == c.CustomerID && c.ApplicationID != null)
@@ -46,7 +46,7 @@ namespace DynamicApp.Controllers
                 .Select(c => c.CMDynamicApplication)
                 .ToList();
 
-            customerTask.applicationList = applicationList;
+            customerTask.ApplicationList = applicationList;
 
             var packageList = db.DynamicAppCustomers
                 .Where(c => customer.id == c.CustomerID && c.PackageID != null)
@@ -54,15 +54,15 @@ namespace DynamicApp.Controllers
                 .Select(c => c.CMDynamicPackage)
                 .ToList();
             
-            customerTask.packageList = packageList;
+            customerTask.PackageList = packageList;
 
             var osList = db.DynamicAppCustomers
                 .Where(c => customer.id == c.CustomerID && c.OSID != null)
                 .Select(c => c.CMOperatingSystem)
                 .ToList();
             
-            customerTask.operatingSystem = osList;
-            customerTask.customer = customer;
+            customerTask.OperatingSystem = osList;
+            customerTask.Customer = customer;
             ViewBag.CustomerName = customer?.Name;
 
             return View(customerTask);

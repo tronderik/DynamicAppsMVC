@@ -191,11 +191,12 @@
       <DependentUpon>DynamicAppModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AllCustomers.cs" />
-    <Compile Include="ViewModels\CustomerApplications.cs" />
-    <Compile Include="ViewModels\CustomerOS.cs" />
-    <Compile Include="ViewModels\CustomerPackages.cs" />
-    <Compile Include="ViewModels\CustomerTask.cs" />
+    <Compile Include="ViewModels\AllCustomersVM.cs" />
+    <Compile Include="ViewModels\CopyCustomerVM.cs" />
+    <Compile Include="ViewModels\CustomerApplicationsVM.cs" />
+    <Compile Include="ViewModels\CustomerOSVM.cs" />
+    <Compile Include="ViewModels\CustomerPackagesVM.cs" />
+    <Compile Include="ViewModels\CustomerTaskVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -294,6 +295,7 @@
     <Content Include="Views\OperatingSystems\OSList.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Customers\CopyCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

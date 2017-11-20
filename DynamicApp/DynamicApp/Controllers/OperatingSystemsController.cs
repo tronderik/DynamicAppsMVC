@@ -24,7 +24,7 @@ namespace DynamicApp.Controllers
         public ActionResult OSList(int customerID)
         {
 
-            var customerOS = new CustomerOS();
+            var customerOS = new CustomerOSVM();
 
             var existingcustomerOS = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.OSID != null)
                                                        .Select(c => c.CMOperatingSystem.id)

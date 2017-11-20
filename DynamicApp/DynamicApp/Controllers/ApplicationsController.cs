@@ -24,7 +24,7 @@ namespace DynamicApp.Controllers
         public ActionResult ApplicationList(int customerID)
         {
 
-            var customerApplications = new CustomerApplications();
+            var customerApplications = new CustomerApplicationsVM();
             
             var customerApps = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
                                                        .Select(c=> c.CMDynamicApplication.id)

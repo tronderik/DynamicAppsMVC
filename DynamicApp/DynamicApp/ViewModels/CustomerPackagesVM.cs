@@ -6,9 +6,9 @@ using System.Web;
 
 namespace DynamicApp.ViewModels
 {
-    public class CustomerOS
+    public class CustomerPackagesVM
     {
-        public List<CMOperatingSystem> OSList { get; set; }
+        public List<CMDynamicPackage> PackageList { get; set; }
         public Customer Customer { get; set; }
     }
 }

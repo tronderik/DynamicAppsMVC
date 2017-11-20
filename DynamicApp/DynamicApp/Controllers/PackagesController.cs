@@ -24,7 +24,7 @@ namespace DynamicApp.Controllers
         public ActionResult PackageList(int customerID)
         {
 
-            var customerPackages = new CustomerPackages();
+            var customerPackages = new CustomerPackagesVM();
 
             var existingcustomerPackages = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.PackageID != null)
                                                        .Select(c => c.CMDynamicPackage.id)

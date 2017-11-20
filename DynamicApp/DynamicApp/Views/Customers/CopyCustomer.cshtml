@@ -1,0 +1,246 @@
+﻿@model DynamicApp.ViewModels.CopyCustomerVM
+
+<h2>CopyCustomer</h2>
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <h2>New Customer</h2>
+        <hr />
+        <h4>Customer Information</h4>
+            <div class="form-group">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.CollectionID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.CollectionID, new { htmlAttributes = new { @class = "form-control", required="required" } })
+                        @Html.ValidationMessageFor(model => model.Customer.CollectionID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Domain, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Domain, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Domain, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.DomainShort, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.DomainShort, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.DomainShort, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.Location, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.Location, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.OU, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.OU, new { htmlAttributes = new { @class = "form-control"} })
+                        @Html.ValidationMessageFor(model => model.Customer.OU, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.RDSVersion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.RDSVersion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.RDSVersion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.SCOM, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.SCOM, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.SCOM, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.System, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.System, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.System, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.XAController, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.XAController, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.XAController, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.OfficeVersion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.OfficeVersion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.OfficeVersion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.XenAppFarmName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Customer.XenAppFarmName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Customer.XenAppFarmName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        <hr/>
+        <h4>PackageList</h4>
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <th>
+                    Package Group
+                </th>
+                <th>
+                    Package Name
+                </th>
+                <th>
+                    Program Name
+                </th>
+                <th>
+                    Version
+                </th>
+                <th>
+                    PackageID
+                </th>
+            </tr>
+
+            @foreach (var item in Model.NewPackageList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Index)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProgramName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageVersion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageID)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <hr/>
+        <h4>ApplicationList</h4>
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <th>
+                    Application Group
+                </th>
+                <th>
+                    Application Name
+                </th>
+                <th>
+                    Application Version
+                </th>
+                <th>
+                    PackageID
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model.NewApplicationList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Index)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Version)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageId)
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+        <hr/>
+        <h4>OperatingSystem</h4>
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Language
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Package SourcePath
+                </th>
+                <th>
+                    PackageID
+                </th>
+            </tr>
+
+            @foreach (var item in Model.NewOperatingSystem)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Language)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PkgSourcePath)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageId)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+
+   
+        <input type="submit" value="Create" class="btn btn-success" />
+
+  </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

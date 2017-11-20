@@ -1,4 +1,4 @@
-﻿@model DynamicApp.ViewModels.CustomerOS
+﻿@model DynamicApp.ViewModels.CustomerOSVM
 
 @{
     ViewBag.Title = "OSList";
@@ -37,7 +37,7 @@
         {
             <tr>
                 <td>
-                    <input type="checkbox" name="ids" value="@item.id" class="form-control" />
+                    <input type="checkbox" name="ids" value="@item.id"/>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
