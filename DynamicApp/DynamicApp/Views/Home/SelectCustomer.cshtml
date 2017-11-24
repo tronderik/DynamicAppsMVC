@@ -6,83 +6,94 @@
 
 <h2>@ViewBag.CustomerName</h2>
 
-<div class="form-group">
+<div class="col-xs-12 col-md-12">
     <h4>Package table</h4>
     @using (Html.BeginForm("PackageList", "Packages", FormMethod.Get))
-            {
+    {
         @Html.Hidden("customerID", Model.Customer.id)
         <button class="btn btn-success">
             Add Packages
         </button>
 
     }
-    <table id="PackageTable" class="table table-responsive table-bordered">
-        <tr>
-            <th>
-                PackageName
-            </th>
-            <th>
-                ProgramName
-            </th>
-            <th>
-                Package Group
-            </th>
-            <th>
-                PackageID
-            </th>
-        </tr>
-        @foreach (var item in Model.PackageList)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PackageName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProgramName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Index)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PackageID)
-                </td>
-                <td>
-                    @using (Html.BeginForm("PackageMoveUp", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-arrow-up"></span>
-                        </button>
-                        
-                  }
-                    @using (Html.BeginForm("PackageMoveDown", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("PackageRemove", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("pckid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-danger" type="submit">
-                            Remove Package
-                        </button>
-                       
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="table-responsive">
+        <table id="PackageTable" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        PackageName
+                    </th>
+                    <th>
+                        ProgramName
+                    </th>
+                    <th>
+                        Package Group
+                    </th>
+                    <th>
+                        PackageID
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PackageList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProgramName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Index)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageID)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("PackageMoveUp", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-xs btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+
+                            }
+                        </td>
+                        <td>                       
+                            @using (Html.BeginForm("PackageMoveDown", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-xs btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                </button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("PackageRemove", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("pckid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-sm btn-danger" type="submit">
+                                    Remove Package
+                                </button>
+
+                            }
+                        </td>
+                    </tr>
+                 }
+            </tbody>
+           
+        </table>
+
+    </div>
+    
 
 </div>        
            
-<div class="form-group">
+<div class="col-xs-12 col-md-12">
     <h4>Application table</h4>
     @using (Html.BeginForm("ApplicationList", "Applications", FormMethod.Get))
             {
@@ -91,72 +102,81 @@
             Add Applications
         </button>
     }
-    <table id="ApplicationTable" class="table table-responsive table-bordered">
-        <tr>
-            <th>
-                Application Name
-            </th>
-            <th>
-                Application Version
-            </th>
-            <th>
-                Application Group
-            </th>
-            <th>
-                PackageID
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.ApplicationList)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Version)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Index)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PackageId)
-                </td>
-                <td>
-                    @using (Html.BeginForm("ApplicationMoveUp", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-arrow-up"></span>
-                        </button>
-                    }
-                    @using (Html.BeginForm("ApplicationMoveDown", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("ApplicationRemove", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("appid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-danger" type="submit">
-                            Remove Package
-                        </button>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="table-responsive">
+        <table id="ApplicationTable" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Application Name
+                    </th>
+                    <th>
+                        Application Version
+                    </th>
+                    <th>
+                        Application Group
+                    </th>
+                    <th>
+                        PackageID
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ApplicationList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Version)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Index)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageId)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ApplicationMoveUp", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("appid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-xs btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ApplicationMoveDown", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("appid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-xs btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                </button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ApplicationRemove", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("appid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-sm btn-danger" type="submit">
+                                    Remove Package
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                 }
+            </tbody>
+           
+        </table>
+    </div>
+    
 
 </div>     
 
-<div class="form-group">
+<div class="col-xs-12 col-md-12">
     <h4>Operating System Table</h4>
     @using (Html.BeginForm("OSList", "OperatingSystems", FormMethod.Get))
             {
@@ -165,65 +185,63 @@
             Add OperatingSystem
         </button>
     }
-    <table id="osTable" class="table table-responsive table-bordered">
-        <tr>
-            <th>
-                OS Name
-            </th>
-            <th>
-                OS Language
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Package SourcePath
-            </th>
-            <th>
-                PackageID
-            </th>
-        </tr>
-        @foreach (var item in Model.OperatingSystem)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Language)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PkgSourcePath)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PackageId)
-                </td>
-                <td>
-                    @using (Html.BeginForm("OSRemove", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("osid", item.id)
-                        @Html.Hidden("customerId", Model.Customer.id)
-                        <button class="btn btn-danger" type="submit">
-                            Remove Package
-                        </button>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
-
+    <div class="table-responsive">
+        <table id="osTable" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        OS Name
+                    </th>
+                    <th>
+                        OS Language
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Package SourcePath
+                    </th>
+                    <th>
+                        PackageID
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OperatingSystem)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Language)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PkgSourcePath)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageId)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("OSRemove", "Home", FormMethod.Post))
+                            {
+                                @Html.Hidden("osid", item.id)
+                                @Html.Hidden("customerId", Model.Customer.id)
+                                <button class="btn btn-sm btn-danger" type="submit">
+                                    Remove Package
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                 }
+            </tbody>
+           
+         </table>
+    </div>
 </div>
-    
-          
- 
-
-      
-            
-    
-
 
 @section scripts {
 

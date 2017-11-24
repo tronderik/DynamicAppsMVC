@@ -8,58 +8,64 @@
 <h2>Customer Overview</h2>
 
     @Html.AntiForgeryToken()
-    <table class="table table-responsive table-bordered">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.System)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RDSVersion)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.System)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RDSVersion)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "SelectCustomer", new { id = item.id }, null)
-                </td>
-                <td>
-                    @Html.ActionLink("Copy Customer", "CopyCustomer", "Customers", new { id = item.id }, null)
-                </td>
-                <td>
-                    @using (Html.BeginForm("Delete", "Customers", FormMethod.Get))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("id", item.id)
-                        <button class="btn btn-danger" type="submit">
-                            Remove Customer
-                        </button>
-
-                    }
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.System)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RDSVersion)
+                </th>
             </tr>
-        }
+        </thead>
 
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.System)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RDSVersion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "SelectCustomer", new { id = item.id }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Copy Customer", "CopyCustomer", "Customers", new { id = item.id }, null)
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Customers", FormMethod.Get))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", item.id)
+                            <button class="btn btn-danger" type="submit">
+                                Remove Customer
+                            </button>
+
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
+</div>
+
 
 
 
