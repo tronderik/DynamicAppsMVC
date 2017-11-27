@@ -89,6 +89,30 @@
           <Property Name="ApplicationIndex" Type="int" />
           <Property Name="OSID" Type="int" />
         </EntityType>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicApplications">
+          <End Role="CMDynamicApplications" Type="Self.CMDynamicApplications" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicApplications">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DynamicAppCustomers_CMDynamicPackages">
+          <End Role="CMDynamicPackages" Type="Self.CMDynamicPackages" Multiplicity="0..1" />
+          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMDynamicPackages">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DynamicAppCustomers">
+              <PropertyRef Name="PackageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DynamicAppCustomers_CMOperatingSystems">
           <End Role="CMOperatingSystems" Type="Self.CMOperatingSystems" Multiplicity="0..1" />
           <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
@@ -119,6 +143,14 @@
           <EntitySet Name="CMOperatingSystems" EntityType="Self.CMOperatingSystems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DynamicAppCustomers" EntityType="Self.DynamicAppCustomers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicApplications" Association="Self.FK_DynamicAppCustomers_CMDynamicApplications">
+            <End Role="CMDynamicApplications" EntitySet="CMDynamicApplications" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicPackages" Association="Self.FK_DynamicAppCustomers_CMDynamicPackages">
+            <End Role="CMDynamicPackages" EntitySet="CMDynamicPackages" />
+            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
+          </AssociationSet>
           <AssociationSet Name="FK_DynamicAppCustomers_CMOperatingSystems" Association="Self.FK_DynamicAppCustomers_CMOperatingSystems">
             <End Role="CMOperatingSystems" EntitySet="CMOperatingSystems" />
             <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
