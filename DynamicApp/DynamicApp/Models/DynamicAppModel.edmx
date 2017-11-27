@@ -11,9 +11,21 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="inserted_at" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateLastModified" Type="datetime" />
           <Property Name="Index" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LastModifiedBy" Type="nvarchar" MaxLength="1000" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NumberOfDependentTS" Type="bigint" />
+          <Property Name="NumberOfDeployments" Type="bigint" />
+          <Property Name="NumberOfDeploymentTypes" Type="bigint" />
+          <Property Name="NumberOfDevicesWithApp" Type="bigint" />
+          <Property Name="NumberOfDevicesWithFailure" Type="bigint" />
+          <Property Name="NumberOfUsersWithApp" Type="bigint" />
+          <Property Name="NumberOfUsersWithFailure" Type="bigint" />
           <Property Name="PackageId" Type="bigint" />
+          <Property Name="Vendor" Type="nvarchar" MaxLength="1000" />
           <Property Name="Version" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="CMDynamicPackages">
@@ -28,6 +40,9 @@
           <Property Name="PackageVersion" Type="nvarchar" MaxLength="1000" />
           <Property Name="ProgramID" Type="int" />
           <Property Name="ProgramName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Vendor" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SourceDate" Type="datetime" />
+          <Property Name="LastRefresh" Type="datetime" />
         </EntityType>
         <EntityType Name="CMOperatingSystems">
           <Key>
@@ -74,30 +89,6 @@
           <Property Name="ApplicationIndex" Type="int" />
           <Property Name="OSID" Type="int" />
         </EntityType>
-        <Association Name="FK_DynamicAppCustomers_CMDynamicApplications">
-          <End Role="CMDynamicApplications" Type="Self.CMDynamicApplications" Multiplicity="0..1" />
-          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CMDynamicApplications">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DynamicAppCustomers">
-              <PropertyRef Name="ApplicationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DynamicAppCustomers_CMDynamicPackages">
-          <End Role="CMDynamicPackages" Type="Self.CMDynamicPackages" Multiplicity="0..1" />
-          <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CMDynamicPackages">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DynamicAppCustomers">
-              <PropertyRef Name="PackageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DynamicAppCustomers_CMOperatingSystems">
           <End Role="CMOperatingSystems" Type="Self.CMOperatingSystems" Multiplicity="0..1" />
           <End Role="DynamicAppCustomers" Type="Self.DynamicAppCustomers" Multiplicity="*" />
@@ -128,14 +119,6 @@
           <EntitySet Name="CMOperatingSystems" EntityType="Self.CMOperatingSystems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DynamicAppCustomers" EntityType="Self.DynamicAppCustomers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicApplications" Association="Self.FK_DynamicAppCustomers_CMDynamicApplications">
-            <End Role="CMDynamicApplications" EntitySet="CMDynamicApplications" />
-            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DynamicAppCustomers_CMDynamicPackages" Association="Self.FK_DynamicAppCustomers_CMDynamicPackages">
-            <End Role="CMDynamicPackages" EntitySet="CMDynamicPackages" />
-            <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
-          </AssociationSet>
           <AssociationSet Name="FK_DynamicAppCustomers_CMOperatingSystems" Association="Self.FK_DynamicAppCustomers_CMOperatingSystems">
             <End Role="CMOperatingSystems" EntitySet="CMOperatingSystems" />
             <End Role="DynamicAppCustomers" EntitySet="DynamicAppCustomers" />
@@ -160,6 +143,18 @@
           <Property Name="PackageId" Type="Int64" />
           <Property Name="Version" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMDynamicApplications" FromRole="CMDynamicApplications" ToRole="DynamicAppCustomers" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateLastModified" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfDependentTS" Type="Int64" />
+          <Property Name="NumberOfDeployments" Type="Int64" />
+          <Property Name="NumberOfDeploymentTypes" Type="Int64" />
+          <Property Name="NumberOfDevicesWithApp" Type="Int64" />
+          <Property Name="NumberOfDevicesWithFailure" Type="Int64" />
+          <Property Name="NumberOfUsersWithApp" Type="Int64" />
+          <Property Name="NumberOfUsersWithFailure" Type="Int64" />
+          <Property Name="Vendor" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CMDynamicPackage">
           <Key>
@@ -174,6 +169,9 @@
           <Property Name="ProgramID" Type="Int32" />
           <Property Name="ProgramName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMDynamicPackages" FromRole="CMDynamicPackages" ToRole="DynamicAppCustomers" />
+          <Property Name="Vendor" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SourceDate" Type="DateTime" Precision="3" />
+          <Property Name="LastRefresh" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CMOperatingSystem">
           <Key>
@@ -306,6 +304,18 @@
           <EntitySetMapping Name="CMDynamicApplications">
             <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicApplication">
               <MappingFragment StoreEntitySet="CMDynamicApplications">
+                <ScalarProperty Name="Vendor" ColumnName="Vendor" />
+                <ScalarProperty Name="NumberOfUsersWithFailure" ColumnName="NumberOfUsersWithFailure" />
+                <ScalarProperty Name="NumberOfUsersWithApp" ColumnName="NumberOfUsersWithApp" />
+                <ScalarProperty Name="NumberOfDevicesWithFailure" ColumnName="NumberOfDevicesWithFailure" />
+                <ScalarProperty Name="NumberOfDevicesWithApp" ColumnName="NumberOfDevicesWithApp" />
+                <ScalarProperty Name="NumberOfDeploymentTypes" ColumnName="NumberOfDeploymentTypes" />
+                <ScalarProperty Name="NumberOfDeployments" ColumnName="NumberOfDeployments" />
+                <ScalarProperty Name="NumberOfDependentTS" ColumnName="NumberOfDependentTS" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="DateLastModified" ColumnName="DateLastModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
                 <ScalarProperty Name="Index" ColumnName="Index" />
@@ -318,6 +328,9 @@
           <EntitySetMapping Name="CMDynamicPackages">
             <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicPackage">
               <MappingFragment StoreEntitySet="CMDynamicPackages">
+                <ScalarProperty Name="LastRefresh" ColumnName="LastRefresh" />
+                <ScalarProperty Name="SourceDate" ColumnName="SourceDate" />
+                <ScalarProperty Name="Vendor" ColumnName="Vendor" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
                 <ScalarProperty Name="Index" ColumnName="Index" />

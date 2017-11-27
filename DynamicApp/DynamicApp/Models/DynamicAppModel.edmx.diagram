@@ -7,7 +7,7 @@
       <Diagram DiagramId="5ffc035e0a7c46539185b6d4f3197054" Name="Diagram1">
         <EntityTypeShape EntityType="DynamicAppsModel.CMDynamicApplication" Width="1.5" PointX="2.25" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DynamicAppsModel.CMDynamicPackage" Width="1.5" PointX="6.875" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="DynamicAppsModel.CMOperatingSystem" Width="1.5" PointX="1.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DynamicAppsModel.CMOperatingSystem" Width="1.5" PointX="1.625" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DynamicAppsModel.Customer" Width="1.5" PointX="9.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DynamicAppsModel.DynamicAppCustomer" Width="1.5" PointX="4.75" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="DynamicAppsModel.FK_DynamicAppCustomers_CMDynamicApplications" ManuallyRouted="false" />

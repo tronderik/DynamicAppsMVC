@@ -30,10 +30,35 @@ namespace DynamicApp.Controllers
             return View();
         }*/
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var customers = db.Customers.OrderBy(c => c.Name).ToList();
-            return View(customers);
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.LocationSortParam = sortOrder == "Location" ? "location_desc" : "Location";
+            ViewBag.SystemSortParam = sortOrder == "System" ? "system_desc" : "System";
+            ViewBag.RDSVersionParam = sortOrder == "RDSVersion" ? "RDSVersion_desc" : "RDSVersion";
+
+            //var customers = db.Customers.OrderBy(c => c.Name).ToList();
+
+            var customers = from s in db.Customers select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(s => s.Name);
+                    break;
+                case "Location":
+                    customers = customers.OrderBy(s => s.Location);
+                    break;
+                case "System":
+                    customers = customers.OrderBy(s => s.System);
+                    break;
+                case "RDSVersion":
+                    customers = customers.OrderBy(s => s.RDSVersion);
+                    break;
+                default:
+                    customers = customers.OrderBy(s => s.Name);
+                    break;
+            }
+            return View(customers.ToList());
         }
         
         public ActionResult SelectCustomer(int id)

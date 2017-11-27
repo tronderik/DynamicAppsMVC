@@ -28,6 +28,9 @@ namespace DynamicApp.Models
         public string PackageVersion { get; set; }
         public Nullable<int> ProgramID { get; set; }
         public string ProgramName { get; set; }
+        public string Vendor { get; set; }
+        public Nullable<System.DateTime> SourceDate { get; set; }
+        public Nullable<System.DateTime> LastRefresh { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DynamicAppCustomer> DynamicAppCustomers { get; set; }

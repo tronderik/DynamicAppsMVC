@@ -26,6 +26,18 @@ namespace DynamicApp.Models
         public string Name { get; set; }
         public Nullable<long> PackageId { get; set; }
         public string Version { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> DateCreated { get; set; }
+        public Nullable<System.DateTime> DateLastModified { get; set; }
+        public string LastModifiedBy { get; set; }
+        public Nullable<long> NumberOfDependentTS { get; set; }
+        public Nullable<long> NumberOfDeployments { get; set; }
+        public Nullable<long> NumberOfDeploymentTypes { get; set; }
+        public Nullable<long> NumberOfDevicesWithApp { get; set; }
+        public Nullable<long> NumberOfDevicesWithFailure { get; set; }
+        public Nullable<long> NumberOfUsersWithApp { get; set; }
+        public Nullable<long> NumberOfUsersWithFailure { get; set; }
+        public string Vendor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DynamicAppCustomer> DynamicAppCustomers { get; set; }
