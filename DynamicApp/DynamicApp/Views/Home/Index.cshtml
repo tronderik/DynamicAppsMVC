@@ -9,20 +9,29 @@
 
     @Html.AntiForgeryToken()
 <div class="table-responsive">
-    <table class="table">
+    <table style="display:none" id="customerTable">
         <thead>
             <tr>
                 <th>
-                   @Html.ActionLink("Name", "Index", new {  sortOrder = ViewBag.NameSortParam})
+                   Name
                 </th>
                 <th>
-                   @Html.ActionLink("Location", "Index", new { sortOrder = ViewBag.LocationSortParam })
+                   Location
                 </th>
                 <th>
-                   @Html.ActionLink("System", "Index", new { sortOrder = ViewBag.SystemSortParam})
+                  System
                 </th>
                 <th>
-                   @Html.ActionLink("RDSVersion", "Index", new { sortOrder = ViewBag.RDSVersionParam})
+                   RDSVersion
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+                    Copy Customer
+                </th>
+                <th>
+                    Delete Customer
                 </th>
             </tr>
         </thead>
@@ -69,3 +78,12 @@
 
 
 
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#customerTable").DataTable();
+
+            $("#customerTable").css("display", "block");
+        });
+    </script>
+}
