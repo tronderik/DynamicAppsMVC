@@ -1,22 +1,23 @@
 ﻿@model IEnumerable<DynamicApp.Models.Customer>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AddApplicationsToCustomers";
+    
+    
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-@using (Html.BeginForm())
+<h2>AddApplicationsToCustomers</h2>
+@using (Html.BeginForm("AddApplicationsToCustomers", "Customers", FormMethod.Post))
 {
-    <table style="display:none" id="customerTable">
+    foreach (var appId in (int[])ViewBag.AppIds)
+    {
+        <input type="hidden" name="appIDs" value="@appId" />
+    }
+
+    <table class="table table-responsive" id="customerTable">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.inserted_at)
+                    #
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CollectionID)
@@ -33,39 +34,28 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Location)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OU)
-                </th>
+
                 <th>
                     @Html.DisplayNameFor(model => model.RDSVersion)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SCOM)
-                </th>
-                <th>
+                 <th>
                     @Html.DisplayNameFor(model => model.System)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.XAController)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.OfficeVersion)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.XenAppFarmName)
-                </th>
-                <th>
-                    #
                 </th>
             </tr>
         </thead>
-            
+
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.inserted_at)
+                       <input type="checkbox" name="customerIDs" value="@item.id" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CollectionID)
@@ -82,14 +72,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OU)
-                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.RDSVersion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SCOM)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.System)
@@ -98,31 +83,46 @@
                         @Html.DisplayFor(modelItem => item.XAController)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.OfficeVersion)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.XenAppFarmName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
                     </td>
                 </tr>
             }
         </tbody>
-       
-
     </table>
+    <button class="btn btn-success">
+        Add Packages
+    </button>
 }
+
 
 
 @section Scripts {
     <script type="text/javascript">
-        $(function () {
-            $("#customerTable").DataTable();
+        $(document).ready(function () {
+            var table = $('#customerTable').DataTable({
+            });
 
-            $("#customerTable").css("display", "block");
+            // Handle form submission event
+            $('#frm-customerTable').on('submit', function (e) {
+                var form = this;
+
+                // Encode a set of form elements from all pages as an array of names and values
+                var params = table.$('input,select,textarea').serializeArray();
+
+                // Iterate over all form elements
+                $.each(params, function () {
+                    // If element doesn't exist in DOM
+                    if (!$.contains(document, form[this.name])) {
+                        // Create a hidden element
+                        $(form).append(
+                            $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
+                        );
+                    }
+                });
+            });
         });
     </script>
 }

@@ -15,11 +15,13 @@ namespace DynamicApp.Controllers
     {
         private DynamicAppsEntities db = new DynamicAppsEntities();
 
+
         // GET: Customers
         public ActionResult Index()
         {
             return View(db.Customers.ToList());
         }
+
 
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
@@ -36,6 +38,48 @@ namespace DynamicApp.Controllers
             return View(customer);
         }
 
+        [HttpGet]
+        public ActionResult AddApplicationsToCustomers(int[] appIDs)
+        {
+            ViewBag.AppIds = appIDs;
+            return View(db.Customers.ToList());
+        }
+
+
+        [HttpPost]
+        public ActionResult AddApplicationsToCustomers(int[] appIDs, int[] customerIDs)
+        {
+            foreach (int customerID in customerIDs)
+            {
+                var customerApps = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
+                                           .Select(c => c.CMDynamicApplication.id)
+                                           .ToList();
+                foreach (int appID in appIDs)
+                {
+                    if (!customerApps.Contains(appID))
+                    {
+                        CMDynamicApplication currentApplication = db.CMDynamicApplications.Where(a => a.id == appID).FirstOrDefault();
+                        DynamicAppCustomer newEntry = new DynamicAppCustomer();
+
+                        var lastIndexValue = (db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
+                       .OrderByDescending(c => c.ApplicationIndex)
+                       .FirstOrDefault(c => c.CustomerID == customerID)).ApplicationIndex;
+                        int nextIndex = (int)lastIndexValue + 1;
+                        newEntry.CustomerID = customerID;
+                        newEntry.ApplicationID = currentApplication.id;
+                        newEntry.ApplicationIndex = nextIndex;
+
+                        db.DynamicAppCustomers.Add(newEntry);
+                        db.SaveChanges();
+
+                    }
+                }
+                var appsCustomerDoesntHave = db.CMDynamicApplications.Where(d => !customerApps.Contains(d.id)).OrderBy(a => a.Name);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
         public ActionResult CopyCustomer(int? id)
         {
             if( id==null)
@@ -51,7 +95,7 @@ namespace DynamicApp.Controllers
             copyCustomerVM.NewOperatingSystem = copyCustomerVM.OriginalCustomer.OperatingSystem;
             return View(copyCustomerVM);
         }
-        
+       
         [HttpPost]
         public ActionResult CopyCustomer(int? id, CopyCustomerVM model)
         {

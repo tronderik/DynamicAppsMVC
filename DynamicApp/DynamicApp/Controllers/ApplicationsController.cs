@@ -16,7 +16,7 @@ namespace DynamicApp.Controllers
         private DynamicAppsEntities db = new DynamicAppsEntities();
 
         // GET: Applications
-        public ActionResult Index()
+        public ActionResult Index(int[] appIDs)
         {
             return View(db.CMDynamicApplications.ToList());
         }
