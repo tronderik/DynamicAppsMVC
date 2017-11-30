@@ -11,6 +11,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="inserted_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="1000" />
           <Property Name="DateCreated" Type="datetime" />
           <Property Name="DateLastModified" Type="datetime" />
@@ -34,6 +35,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="inserted_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
           <Property Name="Index" Type="nvarchar" MaxLength="1000" />
           <Property Name="PackageID" Type="nvarchar" MaxLength="1000" />
           <Property Name="PackageName" Type="nvarchar" MaxLength="1000" />
@@ -50,6 +52,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="inserted_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
           <Property Name="Language" Type="nvarchar" MaxLength="1000" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" />
@@ -64,6 +67,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="inserted_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
           <Property Name="CollectionID" Type="nvarchar" MaxLength="1000" />
           <Property Name="Domain" Type="nvarchar" MaxLength="1000" />
           <Property Name="DomainShort" Type="nvarchar" MaxLength="1000" />
@@ -82,6 +86,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="inserted_at" Type="datetime" />
+          <Property Name="updated_at" Type="datetime" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="PackageID" Type="int" />
           <Property Name="PackageIndex" Type="int" />
@@ -187,6 +193,7 @@
           <Property Name="NumberOfUsersWithApp" Type="Int64" />
           <Property Name="NumberOfUsersWithFailure" Type="Int64" />
           <Property Name="Vendor" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CMDynamicPackage">
           <Key>
@@ -204,6 +211,7 @@
           <Property Name="Vendor" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="SourceDate" Type="DateTime" Precision="3" />
           <Property Name="LastRefresh" Type="DateTime" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CMOperatingSystem">
           <Key>
@@ -219,6 +227,7 @@
           <Property Name="SourceSize" Type="Int32" />
           <Property Name="SourceVersion" Type="Int32" />
           <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_CMOperatingSystems" FromRole="CMOperatingSystems" ToRole="DynamicAppCustomers" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -239,6 +248,7 @@
           <Property Name="OfficeVersion" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="XenAppFarmName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DynamicAppCustomers" Relationship="Self.FK_DynamicAppCustomers_Customers" FromRole="Customers" ToRole="DynamicAppCustomers" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DynamicAppCustomer">
           <Key>
@@ -255,6 +265,8 @@
           <NavigationProperty Name="CMDynamicPackage" Relationship="Self.FK_DynamicAppCustomers_CMDynamicPackages" FromRole="DynamicAppCustomers" ToRole="CMDynamicPackages" />
           <NavigationProperty Name="CMOperatingSystem" Relationship="Self.FK_DynamicAppCustomers_CMOperatingSystems" FromRole="DynamicAppCustomers" ToRole="CMOperatingSystems" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_DynamicAppCustomers_Customers" FromRole="DynamicAppCustomers" ToRole="Customers" />
+          <Property Name="inserted_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_DynamicAppCustomers_CMDynamicApplications">
           <End Role="CMDynamicApplications" Type="Self.CMDynamicApplication" Multiplicity="0..1" />
@@ -336,6 +348,7 @@
           <EntitySetMapping Name="CMDynamicApplications">
             <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicApplication">
               <MappingFragment StoreEntitySet="CMDynamicApplications">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="Vendor" ColumnName="Vendor" />
                 <ScalarProperty Name="NumberOfUsersWithFailure" ColumnName="NumberOfUsersWithFailure" />
                 <ScalarProperty Name="NumberOfUsersWithApp" ColumnName="NumberOfUsersWithApp" />
@@ -360,6 +373,7 @@
           <EntitySetMapping Name="CMDynamicPackages">
             <EntityTypeMapping TypeName="DynamicAppsModel.CMDynamicPackage">
               <MappingFragment StoreEntitySet="CMDynamicPackages">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="LastRefresh" ColumnName="LastRefresh" />
                 <ScalarProperty Name="SourceDate" ColumnName="SourceDate" />
                 <ScalarProperty Name="Vendor" ColumnName="Vendor" />
@@ -377,6 +391,7 @@
           <EntitySetMapping Name="CMOperatingSystems">
             <EntityTypeMapping TypeName="DynamicAppsModel.CMOperatingSystem">
               <MappingFragment StoreEntitySet="CMOperatingSystems">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -392,6 +407,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="DynamicAppsModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
                 <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
@@ -412,6 +428,8 @@
           <EntitySetMapping Name="DynamicAppCustomers">
             <EntityTypeMapping TypeName="DynamicAppsModel.DynamicAppCustomer">
               <MappingFragment StoreEntitySet="DynamicAppCustomers">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="inserted_at" ColumnName="inserted_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="PackageID" ColumnName="PackageID" />

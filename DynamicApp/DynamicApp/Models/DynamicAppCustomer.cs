@@ -21,6 +21,8 @@ namespace DynamicApp.Models
         public Nullable<int> ApplicationID { get; set; }
         public Nullable<int> ApplicationIndex { get; set; }
         public Nullable<int> OSID { get; set; }
+        public Nullable<System.DateTime> inserted_at { get; set; }
+        public Nullable<System.DateTime> updated_at { get; set; }
     
         public virtual CMDynamicApplication CMDynamicApplication { get; set; }
         public virtual CMDynamicPackage CMDynamicPackage { get; set; }

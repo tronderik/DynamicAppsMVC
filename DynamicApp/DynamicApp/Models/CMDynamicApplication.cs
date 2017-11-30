@@ -38,6 +38,7 @@ namespace DynamicApp.Models
         public Nullable<long> NumberOfUsersWithApp { get; set; }
         public Nullable<long> NumberOfUsersWithFailure { get; set; }
         public string Vendor { get; set; }
+        public Nullable<System.DateTime> updated_at { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DynamicAppCustomer> DynamicAppCustomers { get; set; }

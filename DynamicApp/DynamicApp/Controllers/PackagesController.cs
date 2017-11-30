@@ -16,7 +16,7 @@ namespace DynamicApp.Controllers
         private DynamicAppsEntities db = new DynamicAppsEntities();
 
         // GET: Packages
-        public ActionResult Index()
+        public ActionResult Index(int[] pckIDs)
         {
             return View(db.CMDynamicPackages.ToList());
         }

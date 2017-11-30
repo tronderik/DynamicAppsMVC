@@ -1,0 +1,65 @@
+﻿@model DynamicApp.ViewModels.CustomerPackagesVM
+
+
+@{
+    ViewBag.Title = "PackageList";
+}
+
+<h2>PackageList</h2>
+
+@using (Html.BeginForm("AddPackageToCustomer", "Packages", FormMethod.Post))
+{
+    @Html.Hidden("customerID", Model.Customer.id)
+
+    <table class="table table-responsive table-bordered">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Package Group
+            </th>
+            <th>
+                Package Name
+            </th>
+            <th>
+                Program Name
+            </th>
+            <th>
+                Version
+            </th>
+            <th>
+                PackageID
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.PackageList)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="ids" value="@item.id"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Index)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PackageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgramName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PackageVersion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PackageID)
+                </td>
+            </tr>
+        }
+
+    </table>
+    <button class="btn btn-success">
+        Add Packages
+    </button>
+}

@@ -1,47 +1,44 @@
-﻿@model List<DynamicApp.Models.CMDynamicApplication>
-
+﻿@model List<DynamicApp.Models.Customer>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AddPackagesToCustomers";
 }
 
-<h2>Applications</h2>
+<h2>AddPackagesToCustomers</h2>
 
-@using (Html.BeginForm("AddApplicationsToCustomers", "Customers", FormMethod.Get, new { id = "applicationForm" } ))
+@using (Html.BeginForm("AddPackagesToCustomers", "Customers", FormMethod.Post))
 {
-    <table  class="table table-responsive" id="appTable">
+    foreach (var pckID in (int[])ViewBag.pckIDs)
+    {
+        <input type="hidden" name="pckIDs" value="@pckID" />
+    }
+
+    <table class="table table-responsive" id="customerTable">
         <thead>
             <tr>
                 <th>
                     #
                 </th>
                 <th>
-                    Application Group
+                    Name
                 </th>
                 <th>
-                    Application Name
+                    Location
                 </th>
                 <th>
-                    Application Version
+                    Domain
                 </th>
                 <th>
-                    Vendor
+                    RDSVersion
                 </th>
                 <th>
-                    CreatedBy
+                    System
                 </th>
                 <th>
-                    DateCreated
+                    XAController
                 </th>
                 <th>
-                    Last Modified by
+                    XenAppFarmName
                 </th>
-                <th>
-                    Date last modified
-                </th>
-                <th>
-                    PackageID
-                </th>
-
             </tr>
         </thead>
 
@@ -50,55 +47,46 @@
             {
                 <tr>
                     <td>
-                        <input type="checkbox" name="appIDs" value="@Model[i].id" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model[i].Index)
+                        <input type="checkbox" name="customerIDs" value="@Model[i].id" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => Model[i].Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Version)
+                        @Html.DisplayFor(modelItem => Model[i].Location)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Vendor)
+                        @Html.DisplayFor(modelItem => Model[i].Domain)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].CreatedBy)
+                        @Html.DisplayFor(modelItem => Model[i].RDSVersion)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].DateCreated)
+                        @Html.DisplayFor(modelItem => Model[i].System)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].LastModifiedBy)
+                        @Html.DisplayFor(modelItem => Model[i].XAController)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].DateLastModified)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model[i].PackageId)
+                        @Html.DisplayFor(modelItem => Model[i].XenAppFarmName)
                     </td>
                 </tr>
             }
         </tbody>
-       
-
     </table>
-    
-    <p>Add application to customers</p>
     <input type="submit" value="Add Packages" class="btn btn-success" />
 }
 
-@section Scripts 
-{
+
+@*
+@section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            var table = $('#appTable').DataTable();
-            
+            var table = $('#customerTable').DataTable({
+            });
 
             // Handle form submission event
-            $('#applicationForm').on('submit', function (e) {
+            $('#frm-customerTable').on('submit', function (e) {
                 var form = this;
 
                 // Encode a set of form elements from all pages as an array of names and values
@@ -121,3 +109,4 @@
         });
     </script>
 }
+*@

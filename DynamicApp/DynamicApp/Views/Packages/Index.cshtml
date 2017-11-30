@@ -1,0 +1,116 @@
+﻿@model List<DynamicApp.Models.CMDynamicPackage>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Packages</h2>
+
+@using (Html.BeginForm("AddPackagesToCustomers", "Customers", FormMethod.Get))
+{
+    <table class="table table-responsive" id="packageTable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Application Group
+                </th>
+                <th>
+                    PackageName
+                </th>
+                <th>
+                    ProgramName
+                </th>
+                <th>
+                    Package Version
+                </th>
+                <th>
+                    Vendor
+                </th>
+                <th>
+                    SourceDate
+                </th>
+                <th>
+                    LastRefresh
+                </th>
+                <th>
+                    PackageID
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @for(var i=0; i< Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="pckIDs" value="@Model[i].id" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Index)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].PackageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].ProgramName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].PackageVersion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Vendor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].SourceDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].LastRefresh)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].PackageID)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+
+    <p>Add packages to customers</p>
+    <input type="submit" value="Add Packages" class="btn btn-success" />
+}
+
+@section Scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var table = $('#packageTable').DataTable({
+                });
+
+                // Handle form submission event
+                $('#frm-packageTable').on('submit', function (e) {
+                    var form = this;
+
+                    // Encode a set of form elements from all pages as an array of names and values
+                    var params = table.$('input,select,textarea').serializeArray();
+
+                    // Iterate over all form elements
+                    $.each(params, function () {
+                        // If element doesn't exist in DOM
+                        if (!$.contains(document, form[this.name])) {
+                            // Create a hidden element
+                            $(form).append(
+                                $('<input>')
+                                    .attr('type', 'hidden')
+                                    .attr('name', this.name)
+                                    .val(this.value)
+                            );
+                        }
+                    });
+                });
+            });
+    </script>
+}

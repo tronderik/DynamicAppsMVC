@@ -303,6 +303,8 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Customers\CopyCustomer.cshtml" />
     <Content Include="Views\Customers\AddApplicationsToCustomers.cshtml" />
+    <Content Include="Views\Packages\Index.cshtml" />
+    <Content Include="Views\Customers\AddPackagesToCustomers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

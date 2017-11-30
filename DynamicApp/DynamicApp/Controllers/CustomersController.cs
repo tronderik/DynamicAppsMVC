@@ -39,9 +39,49 @@ namespace DynamicApp.Controllers
         }
 
         [HttpGet]
+        public ActionResult AddPackagesToCustomers(int[] pckIDs)
+        {
+            ViewBag.PckIds = pckIDs.Distinct().ToArray();
+            return View(db.Customers.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult AddPackagesToCustomers(int[] pckIDs, int[] customerIDs)
+        {
+     
+            foreach (int customerID in customerIDs)
+            {
+                var customerApps = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.PackageID != null)
+                                           .Select(c => c.CMDynamicPackage.id)
+                                           .ToList();
+                foreach (int pckID in pckIDs)
+                {
+                    if (!customerApps.Contains(pckID))
+                    {
+                        CMDynamicPackage currentPackage = db.CMDynamicPackages.Where(a => a.id == pckID).FirstOrDefault();
+                        DynamicAppCustomer newEntry = new DynamicAppCustomer();
+                        newEntry.updated_at = DateTime.Now;
+                        var lastIndexValue = (db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.PackageID != null)
+                       .OrderByDescending(c => c.PackageIndex)
+                       .FirstOrDefault(c => c.CustomerID == customerID)).PackageIndex;
+                        int nextIndex = (int)lastIndexValue + 1;
+                        newEntry.CustomerID = customerID;
+                        newEntry.PackageID = currentPackage.id;
+                        newEntry.PackageIndex = nextIndex;
+
+                        db.DynamicAppCustomers.Add(newEntry);
+                        db.SaveChanges();
+
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public ActionResult AddApplicationsToCustomers(int[] appIDs)
         {
-            ViewBag.AppIds = appIDs;
+            ViewBag.AppIds = appIDs.Distinct().ToArray();
             return View(db.Customers.ToList());
         }
 
@@ -60,7 +100,7 @@ namespace DynamicApp.Controllers
                     {
                         CMDynamicApplication currentApplication = db.CMDynamicApplications.Where(a => a.id == appID).FirstOrDefault();
                         DynamicAppCustomer newEntry = new DynamicAppCustomer();
-
+                        newEntry.updated_at = DateTime.Now;
                         var lastIndexValue = (db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.ApplicationID != null)
                        .OrderByDescending(c => c.ApplicationIndex)
                        .FirstOrDefault(c => c.CustomerID == customerID)).ApplicationIndex;
@@ -103,6 +143,7 @@ namespace DynamicApp.Controllers
             CustomerTaskVM oldCustomer = GetCustomerInfo(id);
 
             model.Customer.inserted_at = now;
+            model.Customer.updated_at = now;
             db.Customers.Add(model.Customer);
             db.SaveChanges();
             int customerID = db.Customers.Where(c => c.Name == model.Customer.Name
@@ -115,6 +156,7 @@ namespace DynamicApp.Controllers
             List<DynamicAppCustomer> entries = CreateEntryToDynamicAppCustomers(oldCustomer, customerID);
             foreach(var item in entries)
             {
+                item.updated_at = now;
                 db.DynamicAppCustomers.Add(item);
             }
 
@@ -225,6 +267,7 @@ namespace DynamicApp.Controllers
             {
                 DateTime now = DateTime.Now;
                 customer.inserted_at = now;
+                customer.updated_at = now;
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -257,7 +300,9 @@ namespace DynamicApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                customer.updated_at = DateTime.Now;
                 db.Entry(customer).State = EntityState.Modified;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
