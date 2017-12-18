@@ -105,11 +105,11 @@ namespace DynamicApp.Controllers
                     .FirstOrDefault(d => d.CustomerID == customerId && d.ApplicationIndex < dynamicApp.ApplicationIndex);
 
                 if (appBeforeIt != null)
-                {
+                {    
                     var appBeforeIndex = appBeforeIt.ApplicationIndex;
                     appBeforeIt.ApplicationIndex = dynamicApp.ApplicationIndex;
                     dynamicApp.ApplicationIndex = appBeforeIndex;
-
+                    dynamicApp.updated_at = DateTime.Now;
                     db.SaveChanges();
                 }
             }
@@ -132,7 +132,7 @@ namespace DynamicApp.Controllers
                     var appAfterIndex = appAfterIt.ApplicationIndex;
                     appAfterIt.ApplicationIndex = dynamicApp.ApplicationIndex;
                     dynamicApp.ApplicationIndex = appAfterIndex;
-
+                    dynamicApp.updated_at = DateTime.Now;
                     db.SaveChanges();
                 }
             }
@@ -156,7 +156,7 @@ namespace DynamicApp.Controllers
                     var appBeforeIndex = appBeforeIt.PackageIndex;
                     appBeforeIt.PackageIndex = dynamicPackage.PackageIndex;
                     dynamicPackage.PackageIndex = appBeforeIndex;
-
+                    dynamicPackage.updated_at = DateTime.Now;
                     db.SaveChanges();
                 }
             }
@@ -179,7 +179,7 @@ namespace DynamicApp.Controllers
                     var appAfterIndex = appAfterIt.PackageIndex;
                     appAfterIt.PackageIndex = dynamicPackage.PackageIndex;
                     dynamicPackage.PackageIndex = appAfterIndex;
-
+                    dynamicPackage.updated_at = DateTime.Now;
                     db.SaveChanges();
                 }
             }
@@ -190,8 +190,10 @@ namespace DynamicApp.Controllers
         [HttpPost]
         public ActionResult PackageRemove(int customerID, int pckid)
         {
-            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.PackageID == pckid);
-            db.DynamicAppCustomers.Remove(dynamicPackage);
+            var dynamicPackageToBeRemoved = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.PackageID == pckid);
+            db.DynamicAppCustomers.Remove(dynamicPackageToBeRemoved);
+            var dynamicPackage = db.DynamicAppCustomers.Where(d => d.CustomerID == customerID && d.PackageID != null).FirstOrDefault();
+            dynamicPackage.updated_at = DateTime.Now;
             db.SaveChanges();
 
             return RedirectToAction("SelectCustomer", new { id = customerID });
@@ -200,8 +202,10 @@ namespace DynamicApp.Controllers
         [HttpPost]
         public ActionResult ApplicationRemove(int customerID, int appid)
         {
-            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.ApplicationID == appid);
-            db.DynamicAppCustomers.Remove(dynamicPackage);
+            var dynamicApplicationToBeRemoved = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.ApplicationID == appid);
+            db.DynamicAppCustomers.Remove(dynamicApplicationToBeRemoved);
+            var dynamicApplication = db.DynamicAppCustomers.FirstOrDefault(d => d.CustomerID == customerID && d.ApplicationID != null);
+            dynamicApplication.updated_at = DateTime.Now;
             db.SaveChanges();
 
             return RedirectToAction("SelectCustomer", new { id = customerID });
@@ -210,8 +214,10 @@ namespace DynamicApp.Controllers
         [HttpPost]
         public ActionResult OSRemove(int customerID, int osid)
         {
-            var dynamicPackage = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.OSID == osid);
-            db.DynamicAppCustomers.Remove(dynamicPackage);
+            var operatingSystemToBeRemoved = db.DynamicAppCustomers.SingleOrDefault(d => d.CustomerID == customerID && d.OSID == osid);
+            db.DynamicAppCustomers.Remove(operatingSystemToBeRemoved);
+            var operatingSystem = db.DynamicAppCustomers.FirstOrDefault(d => d.CustomerID == customerID && d.OSID != null);
+            operatingSystem.updated_at = DateTime.Now;
             db.SaveChanges();
 
             return RedirectToAction("SelectCustomer", new { id = customerID });
