@@ -29,7 +29,7 @@ namespace DynamicApp.Controllers
             var existingcustomerPackages = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.PackageID != null)
                                                        .Select(c => c.CMDynamicPackage.id)
                                                         .ToList();
-            var packagesCustomerDoesntHave = db.CMDynamicPackages.Where(d => !existingcustomerPackages.Contains(d.id)).ToList();
+            var packagesCustomerDoesntHave = db.CMDynamicPackages.Where(d => !existingcustomerPackages.Contains(d.id)).OrderBy(p => p.PackageName).ToList();
             Customer customer = db.Customers.Where(c => c.id == customerID).FirstOrDefault();
             customerPackages.Customer = customer;
             customerPackages.PackageList = packagesCustomerDoesntHave;

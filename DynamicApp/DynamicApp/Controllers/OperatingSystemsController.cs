@@ -29,7 +29,7 @@ namespace DynamicApp.Controllers
             var existingcustomerOS = db.DynamicAppCustomers.Where(c => c.CustomerID == customerID && c.OSID != null)
                                                        .Select(c => c.CMOperatingSystem.id)
                                                         .ToList();
-            var osCustomerDoesntHave = db.CMOperatingSystems.Where(d => !existingcustomerOS.Contains(d.id)).ToList();
+            var osCustomerDoesntHave = db.CMOperatingSystems.Where(d => !existingcustomerOS.Contains(d.id)).OrderBy(o=> o.Name).ToList();
             Customer customer = db.Customers.Where(c => c.id == customerID).FirstOrDefault();
             customerOS.Customer = customer;
             customerOS.OSList = osCustomerDoesntHave;

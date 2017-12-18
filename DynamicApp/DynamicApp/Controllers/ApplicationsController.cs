@@ -35,7 +35,7 @@ namespace DynamicApp.Controllers
             customerApplications.Customer = customer;
             var appsCustomerDoesntHave = from a in db.CMDynamicApplications where !customerApps.Contains(a.id) select a;
 
-            customerApplications.ApplicationList = appsCustomerDoesntHave.ToList();
+            customerApplications.ApplicationList = appsCustomerDoesntHave.OrderBy(a=> a.Name).ToList();
 
             return View(customerApplications);
         }
